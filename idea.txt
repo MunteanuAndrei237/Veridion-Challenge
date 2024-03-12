@@ -1,0 +1,25 @@
+def verify_ssl_certificate(hostname):
+    try:
+        # Establish a connection to the server
+        context = ssl.create_default_context()
+        with socket.create_connection((hostname, 443)) as sock:
+            with context.wrap_socket(sock, server_hostname=hostname) as ssock:
+                # Get the SSL certificate from the server
+                certificate = ssock.getpeercert()
+
+                # Verify certificate properties
+                issuer = certificate['issuer']
+                subject = certificate['subject']
+                expiration_date = certificate['notAfter']
+
+                print("Certificate issuer:", issuer)
+                print("Certificate subject:", subject)
+                print("Certificate expiration date:", expiration_date)
+
+                # Add more verification logic as needed
+
+    except Exception as e:
+        print("Error:", e)
+
+     Python 3.10.11
+pip 24.0
